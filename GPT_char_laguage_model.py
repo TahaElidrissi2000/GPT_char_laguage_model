@@ -47,32 +47,6 @@ print(f"  device: {device}")
 The lanching command is as follows :
     python GPT_char_language_model.py --config "launch.json" --mode "train" or "debug"
 
-"""
-
-sys.exit()
-
-"""
-# Hyperparametrs 
-batch_size=32 # how many indepent sequences will we process in paralelle ?
-block_size=8 # the maximum lenght of the contexte we are going to use
-epochs = 50
-eval_epochs=10
-n_emb = 32 # add this variable(dimension) to  make the token embedding as an intermediate phase  
-torch.manual_seed(1337)
-device = "cuda" if torch.cuda.is_available() else "cpu"
-"""
-# Print all values
-print(f"Hyperparameters:")
-print(f"  Batch size     : {batch_size}")
-print(f"  Block size     : {block_size}")
-print(f"  Epochs         : {epochs}")
-print(f"  Eval every     : {eval_epochs} epochs")
-print(f"  Embedding dim  : {n_emb}")
-print(f"  Device         : {device} \n")
-
-sys.exit()
-
-"""
 ===================Line of code to download the dataset directly from a GitHub repository.===============================
 # Setup path to a data folder
 data_path=Path("Pyscript/data/")
@@ -264,10 +238,10 @@ class BiagramLanguageModel(nn.Module):
           crop_idx = idx[:, -block_size:]
 
           # Get model predictions (logits), ignore loss since we're in inference
-          logits = self(crop_idx)
+          logits,loss = self(crop_idx)
 
           # Focus on the last time step's logits (shape: B x vocab_size)
-          logits,loss = logits[:, -1, :]
+          logits = logits[:, -1, :]
 
           # Convert logits to probabilities
           probs = nn.functional.softmax(logits, dim=-1)  # Shape: (B, vocab_size)
