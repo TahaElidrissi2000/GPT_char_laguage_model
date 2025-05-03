@@ -1,9 +1,6 @@
 # Libraires 
-import requests
-from pathlib import Path
 import torch
 import torch.nn as nn 
-import sys
 import json 
 import argparse
 
@@ -18,11 +15,11 @@ args = parser.parse_args()
 with open(args.config, "r") as f:
     config = json.load(f)
 
-# retriev the values corresponding to the selected lanching mde , either "debug" or "train"
-mode_config = config.get(args.mode)
+
 
 
 # Access config parameters
+mode_config = config.get(args.mode)  # retriev the values corresponding to the selected lanching mde , either "debug" or "train"
 batch_size = mode_config.get("batch_size")  # Default to 32 if not provided
 block_size = mode_config.get("block_size")  # Default to 8 if not provided
 epochs = mode_config.get("epochs")  # Default to 50 if not provided
@@ -41,32 +38,6 @@ print(f"  epochs: {epochs}")
 print(f"  eval_epochs: {eval_epochs}")
 print(f"  n_emb: {n_emb}")
 print(f"  device: {device}")
-
-
-"""
-The lanching command is as follows :
-    python GPT_char_language_model.py --config "launch.json" --mode "train" or "debug"
-
-===================Line of code to download the dataset directly from a GitHub repository.===============================
-# Setup path to a data folder
-data_path=Path("Pyscript/data/")
-
-# If the image folder doesn't exist, download it and prepare it ...
-if data_path.is_dir():
-  print(f"{data_path} directory already exists .... skipping download")
-
-else:
-  print(f"{data_path} does not exist .... creating one ")
-  data_path.mkdir(parents=True,exist_ok=True)
-  # Dowload the data
-  with open(data_path / "Tiny Shakespeare","wb") as f:
-    request=requests.get("https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt")
-    print("Downloading the data ....\n")
-    f.write(request.content)
-===================Line of code to download the dataset directly from a GitHub repository.==============================
-    
-"""
-
 
 
 
