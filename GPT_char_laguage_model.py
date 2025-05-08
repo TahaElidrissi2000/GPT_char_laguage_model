@@ -95,7 +95,7 @@ def get_batch(split):
     # Create target batch (y) by stacking shifted sequences from the selected indices
     y = torch.stack([data[i + 1:i + block_size + 1] for i in ix])
 
-    return x, y
+    return x.to(device), y.to(device)
 
 
 # Bulding the model that we strated with 
@@ -317,6 +317,8 @@ class feedforward(nn.Module):
 
 # ==================================TRAINING LOOP========================================= 
 model = BiagramLanguageModel(vocab_size)
+model = model.to(device)
+
 optimizer = torch.optim.AdamW(model.parameters(),lr=1e-3)
 
 
